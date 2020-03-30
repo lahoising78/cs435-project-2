@@ -6,7 +6,9 @@
 #include "graph_search.h"
 
 #define EDGE_CHANCE 0.1f
-#define NUM_NODES 10
+#define NUM_NODES 5
+#define CREATE_STRING(i) createString(i)                //nodes are labeled with letters
+// #define CREATE_STRING(i) std::to_string(i)           //nodes are labeled with numbers
 
 Graph createRandomUnweightedGraphIter(int n);
 Graph createLinkedList(int n);
@@ -14,8 +16,8 @@ std::string createString(int i);
 
 int main(int argc, char *argv[])
 {
-    Graph graph = createRandomUnweightedGraphIter(NUM_NODES);
-    // Graph graph = createLinkedList(NUM_NODES);
+    // Graph graph = createRandomUnweightedGraphIter(NUM_NODES);
+    Graph graph = createLinkedList(NUM_NODES);
     graph.printAdjacency();
     auto nodes = graph.getAllNodes();
 
@@ -30,12 +32,13 @@ int main(int argc, char *argv[])
         endNum = std::rand() % NUM_NODES;
     } while(startNum >= endNum);
 
-    std::string start = createString( startNum );
-    std::string end = createString( endNum );
+    std::string start = CREATE_STRING(startNum);
+    std::string end = CREATE_STRING(endNum);
 
     // auto dfs = search.DFSIter( nodes[start], nodes[end] );
     // auto dfs = search.DFSRec( nodes[start], nodes[end] );
-    auto dfs = search.BFSRec( graph );
+    // auto dfs = search.BFSRec( graph );
+    auto dfs = search.BFSIter( graph );
     printVector(dfs);
 
     return 0;
@@ -65,7 +68,7 @@ std::string createString(int i)
         shifted = 1;
     }
 
-    // printf("new string %s\n", ret.c_str());
+    printf("new string %s\n", ret.c_str());
 
     return ret;
 }
@@ -78,7 +81,7 @@ Graph createRandomUnweightedGraphIter(int n)
 
     for(int i = 0; i < n; i++)
     {
-        std::string nodeVal = createString(i);
+        std::string nodeVal = CREATE_STRING(i);
         graph.addNode( nodeVal );
         auto nodes = graph.getAllNodes();
         unsigned long count = nodes.size();
@@ -105,7 +108,7 @@ Graph createLinkedList(int n)
 
     for(int i = 0; i < n; i++)
     {
-        std::string nodeVal = createString(i);
+        std::string nodeVal = CREATE_STRING(i);
         graph.addNode( nodeVal );
 
         if(i == 0) continue;
@@ -113,7 +116,7 @@ Graph createLinkedList(int n)
         auto nodes = graph.getAllNodes();
         Node &newNode = nodes[nodeVal];
 
-        auto it = nodes.find(createString(i -  1));
+        auto it = nodes.find( CREATE_STRING(i - 1) );
 
         if(it != nodes.end())
         {

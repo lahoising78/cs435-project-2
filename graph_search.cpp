@@ -163,3 +163,45 @@ void GraphSearch::BFSRecHelp(std::vector<Node> &path, std::vector<Node> &queue, 
         }
     }
 }
+
+std::vector<Node> GraphSearch::BFSIter(const Graph &graph)
+{
+    this->graph = graph;
+
+    std::vector<Node> path;
+    std::vector<Node> queue;
+    auto &nodes = this->graph.getAllNodes();
+    std::map<std::string, bool> visited;
+
+    enqueue(queue, nodes.begin()->second);
+
+    while(!queue.empty())
+    {
+        Node v = dequeue(queue);
+
+        if(visited[v.value]) continue;
+        visited[v.value] = true;
+
+        path.push_back( v );
+
+        for(auto n : this->graph.adjacency[v.value])
+        {
+            if(!visited[n])
+                enqueue(queue, nodes[n]);
+        }
+
+        if(queue.empty() && path.size() != nodes.size())
+        {
+            for(auto n : this->graph.nodes)
+            {
+                if(visited[n.first]) continue;
+
+                // ENQUEUE_NODE_PRINT(node.second);
+                enqueue(queue, n.second);
+                break;
+            }
+        }
+    }
+
+    return path;
+}
