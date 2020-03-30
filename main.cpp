@@ -6,7 +6,7 @@
 #include "graph_search.h"
 
 #define EDGE_CHANCE 0.1f
-#define NUM_NODES 5
+#define NUM_NODES 10
 
 Graph createRandomUnweightedGraphIter(int n);
 Graph createLinkedList(int n);
@@ -34,7 +34,8 @@ int main(int argc, char *argv[])
     std::string end = createString( endNum );
 
     // auto dfs = search.DFSIter( nodes[start], nodes[end] );
-    auto dfs = search.DFSRec( nodes[start], nodes[end] );
+    // auto dfs = search.DFSRec( nodes[start], nodes[end] );
+    auto dfs = search.BFSRec( graph );
     printVector(dfs);
 
     return 0;
@@ -64,7 +65,7 @@ std::string createString(int i)
         shifted = 1;
     }
 
-    printf("new string %s\n", ret.c_str());
+    // printf("new string %s\n", ret.c_str());
 
     return ret;
 }
