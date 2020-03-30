@@ -40,10 +40,10 @@ int main(int argc, char *argv[])
     std::string start = CREATE_STRING(startNum);
     std::string end = CREATE_STRING(endNum);
 
-    auto dfs = search.DFSRec( nodes[start], nodes[end] );
+    // auto dfs = search.DFSRec( nodes[start], nodes[end] );
     // auto dfs = search.DFSIter( nodes[start], nodes[end] );
     // auto dfs = search.BFTRec( graph );
-    // auto dfs = search.BFTIter( graph );
+    auto dfs = search.BFTIter( graph );
     printVector(dfs);
 
     // BFT_LINKED_CREATE_AND_PRINT(100)
