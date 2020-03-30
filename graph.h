@@ -8,10 +8,18 @@
 class GraphSearch;
 
 
-typedef struct node_s
+class Node
 {
+public:
     std::string value;
-} Node;
+    std::vector<Node*> adjacency;
+
+    Node() {}
+    Node(std::string val)
+    {
+        value = val;
+    }
+};
 
 void printVector(std::vector<Node>);
 
@@ -21,17 +29,16 @@ friend class GraphSearch;
 
 public:
     void addNode(const std::string nodeVal);
-    void addUndirectedEdge(const Node &first, const Node &second);
-    void removeUndirectedEdge(const Node &first, const Node &second);
+    void addUndirectedEdge(Node *first, Node *second);
+    // void removeUndirectedEdge(Node &first, Node &second);
     std::map<std::string, Node> &getAllNodes() { return nodes; }
 
-    void addDirectedEdge(const Node &start, const Node &end);
+    void addDirectedEdge(Node *start, Node *end);
 
     void printAdjacency();
 
 private:
     std::map<std::string, Node> nodes;
-    std::map<std::string, std::vector<std::string>> adjacency;
 };
 
 #endif

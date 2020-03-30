@@ -4,40 +4,40 @@
 /* --========== problem functions ==========- */
 void Graph::addNode(const std::string nodeVal)
 {
-    Node n = {};
-    n.value = nodeVal;
+    Node n(nodeVal);
+    // n.value = nodeVal;
 
     nodes[nodeVal] = n;
-    adjacency[nodeVal].clear();
+    n.adjacency.clear();
 }
 
-void Graph::addUndirectedEdge(const Node &first, const Node &second)
+void Graph::addUndirectedEdge(Node *first, Node *second)
 {
-    adjacency[first.value].push_back(second.value);
-    adjacency[second.value].push_back(first.value);
+    first->adjacency.push_back(second);
+    second->adjacency.push_back(first);
 }
 
-void Graph::removeUndirectedEdge(const Node &first, const Node &second)
-{
+// void Graph::removeUndirectedEdge(Node &first, Node &second)
+// {
 
-}
+// }
 
 /* --================= EXTRA FUNCTIONS ============-- */
 
-void Graph::addDirectedEdge(const Node &start, const Node &end)
+void Graph::addDirectedEdge(Node *start, Node *end)
 {
     // printf("link %s to %s\n", start.value.c_str(), end.value.c_str());
-    adjacency[start.value].push_back(end.value);
+    start->adjacency.push_back(end);
 }
 
 void Graph::printAdjacency()
 {
-    for(auto &node : adjacency)
+    for(auto &node : nodes)
     {
         printf("%s: ", node.first.c_str());
-        for(auto &adj : node.second)
+        for(auto &adj : node.second.adjacency)
         {
-            printf("%s ", adj.c_str());
+            printf("%s ", adj->value.c_str());
         }
         printf("\n");
     }
