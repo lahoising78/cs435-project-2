@@ -13,14 +13,32 @@ void Graph::addNode(const std::string nodeVal)
 
 void Graph::addUndirectedEdge(Node *first, Node *second)
 {
+    if(!first || !second) return;
+    
     first->adjacency.push_back(second);
     second->adjacency.push_back(first);
 }
 
-// void Graph::removeUndirectedEdge(Node &first, Node &second)
-// {
+void Graph::removeUndirectedEdge(Node *first, Node *second)
+{
+    if(!first || !second) return;
 
-// }
+    auto it = first->adjacency.begin();
+    for(; it < first->adjacency.end(); it++)
+    {
+        if(*it == second) break;
+    }
+
+    if(it < first->adjacency.end()) first->adjacency.erase(it);
+
+    it = second->adjacency.begin();
+    for(; it < second->adjacency.end(); it++)
+    {
+        if(*it == first) break;
+    }
+
+    if(it < second->adjacency.end()) second->adjacency.erase(it);
+}
 
 /* --================= EXTRA FUNCTIONS ============-- */
 

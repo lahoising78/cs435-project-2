@@ -30,7 +30,7 @@ friend class GraphSearch;
 public:
     void addNode(const std::string nodeVal);
     void addUndirectedEdge(Node *first, Node *second);
-    // void removeUndirectedEdge(Node &first, Node &second);
+    void removeUndirectedEdge(Node *first, Node *second);
     std::map<std::string, Node> &getAllNodes() { return nodes; }
 
     void addDirectedEdge(Node *start, Node *end);
