@@ -3,10 +3,10 @@
 <h2>Building and Running</h2>
 <p>To build the project follow these steps:</p> 
 <ul>
-    <li>Clone the project using `git clone https://github.com/lahoising78/cs435-project-2.git`</li>
-    <li>In bash, go to the directory where the clone was cloned and type `make1</li>
+    <li>Clone the project using <code>git clone https://github.com/lahoising78/cs435-project-2.git</code></li>
+    <li>In bash, go to the directory where the clone was cloned and type <code>make1</code></li>
 </ul>
-<p>To run the application use `./app`</p>
+<p>To run the application use <code>./app</code></p>
 
 <h2>Output Samples</h2>
 <h4>BFT Iter</h4>
