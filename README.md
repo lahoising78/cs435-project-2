@@ -10,3 +10,8 @@
 
 <h2>Output Samples</h2>
 <img src="output_pics/bft_iter.png">
+<img src="output_pics/bft_rec.png">
+<img src="output_pics/dfs_iter.png">
+<img src="output_pics/dfs_rec.png">
+<img src="output_pics/bft_list_rec.png">
+<img src="output_pics/bft_list_list.png">
