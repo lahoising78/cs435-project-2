@@ -9,9 +9,15 @@
 <p>To run the application use `./app`</p>
 
 <h2>Output Samples</h2>
+<h4>BFT Iter</h4>
 <img src="output_pics/bft_iter.png">
+<h4>BFT Rec</h4>
 <img src="output_pics/bft_rec.png">
+<h4>DFS Iter</h4>
 <img src="output_pics/dfs_iter.png">
+<h4>DFS Rec</h4>
 <img src="output_pics/dfs_rec.png">
+<h4>BFT List Rec</h4>
 <img src="output_pics/bft_list_rec.png">
-<img src="output_pics/bft_list_list.png">
+<h4>BFT List Iter</h4>
+<img src="output_pics/bft_list_iter.png">
