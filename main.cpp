@@ -10,7 +10,11 @@
 // #define CREATE_STRING(i) createString(i)                //nodes are labeled with letters
 #define CREATE_STRING(i) std::to_string(i)           //nodes are labeled with numbers
 
-#define BFT_LINKED_CREATE_AND_PRINT(num) std::vector<Node> bft##num = BFTRecLinkedList(num); \
+#define BFT_LINKED_CREATE_AND_PRINT_REC(num) std::vector<Node> bft##num = BFTRecLinkedList(num); \
+printf("\n%d\n", num); \
+printVector(bft##num); \
+
+#define BFT_LINKED_CREATE_AND_PRINT_ITER(num) std::vector<Node> bft##num = BFTIterLinkedList(num); \
 printf("\n%d\n", num); \
 printVector(bft##num); \
 
@@ -18,6 +22,7 @@ Graph createRandomUnweightedGraphIter(int n);
 Graph createLinkedList(int n);
 std::string createString(int i);
 std::vector<Node> BFTRecLinkedList(const int numNodes);
+std::vector<Node> BFTIterLinkedList(const int numNodes);
 
 int main(int argc, char *argv[])
 {
@@ -44,14 +49,16 @@ int main(int argc, char *argv[])
     graph.printAdjacency();
 
     // auto dfs = search.DFSRec( nodes[start], nodes[end] );
-    auto dfs = search.DFSIter( nodes[start], nodes[end] );
+    // auto dfs = search.DFSIter( nodes[start], nodes[end] );
     // auto dfs = search.BFTRec( graph );
-    // auto dfs = search.BFTIter( graph );
+    auto dfs = search.BFTIter( graph );
     printVector(dfs);
 
-    BFT_LINKED_CREATE_AND_PRINT(100)
+    BFT_LINKED_CREATE_AND_PRINT_REC(100)
 
-    // BFT_LINKED_CREATE_AND_PRINT(10000)
+    // BFT_LINKED_CREATE_AND_PRINT_REC(10000)
+
+    BFT_LINKED_CREATE_AND_PRINT_ITER(10000)
 
     return 0;
 }
@@ -147,4 +154,12 @@ std::vector<Node> BFTRecLinkedList(const int numNodes)
     GraphSearch search = {};
 
     return search.BFTRec(graph);
+}
+
+std::vector<Node> BFTIterLinkedList(const int numNodes)
+{
+    Graph graph = createLinkedList(numNodes);
+    GraphSearch search = {};
+
+    return search.BFTIter(graph);
 }
