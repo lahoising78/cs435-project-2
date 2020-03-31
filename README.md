@@ -4,7 +4,7 @@
 <p>To build the project follow these steps:</p> 
 <ul>
     <li>Clone the project using <code>git clone https://github.com/lahoising78/cs435-project-2.git</code></li>
-    <li>In bash, go to the directory where the clone was cloned and type <code>make1</code></li>
+    <li>In bash, go to the directory where the clone was cloned and type <code>make</code></li>
 </ul>
 <p>To run the application use <code>./app</code></p>
 
