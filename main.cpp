@@ -26,10 +26,10 @@ std::vector<Node> BFTIterLinkedList(const int numNodes);
 
 int main(int argc, char *argv[])
 {
-    Graph graph = createRandomUnweightedGraphIter(NUM_NODES);
-    // Graph graph = createLinkedList(NUM_NODES);
+    // Graph graph = createRandomUnweightedGraphIter(NUM_NODES);
+    Graph graph = createLinkedList(NUM_NODES);
     graph.printAdjacency();
-    // auto &nodes = graph.getAllNodes();
+    auto &nodes = graph.getAllNodes();
 
     GraphSearch search = {};
 
@@ -46,9 +46,9 @@ int main(int argc, char *argv[])
     std::string end = CREATE_STRING(endNum);
 
     // auto dfs = search.DFSRec( nodes[start], nodes[end] );
-    // auto dfs = search.DFSIter( nodes[start], nodes[end] );
+    auto dfs = search.DFSIter( nodes[start], nodes[end] );
     // auto dfs = search.BFTRec( graph );
-    auto dfs = search.BFTIter( graph );
+    // auto dfs = search.BFTIter( graph );
     printVector(dfs);
 
     // BFT_LINKED_CREATE_AND_PRINT_REC(100)
@@ -137,7 +137,7 @@ Graph createLinkedList(int n)
         if(it != nodes.end())
         {
             Node *prev = &it->second;
-            graph.addDirectedEdge(prev, newNode);
+            graph.addUndirectedEdge(prev, newNode);
         }
 
     }
