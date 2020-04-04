@@ -4,6 +4,7 @@
 
 #include "graph.h"
 #include "graph_search.h"
+#include "directed_graph.h"
 
 #define EDGE_CHANCE 0.1f
 #define NUM_NODES 5
@@ -23,39 +24,43 @@ Graph createLinkedList(int n);
 std::string createString(int i);
 std::vector<Node> BFTRecLinkedList(const int numNodes);
 std::vector<Node> BFTIterLinkedList(const int numNodes);
+DirectedGraph createRandomDAGIter(const int numNodes);
 
 int main(int argc, char *argv[])
 {
     // Graph graph = createRandomUnweightedGraphIter(NUM_NODES);
-    Graph graph = createLinkedList(NUM_NODES);
-    graph.printAdjacency();
-    auto &nodes = graph.getAllNodes();
+    // Graph graph = createLinkedList(NUM_NODES);
+    // graph.printAdjacency();
+    // auto &nodes = graph.getAllNodes();
 
-    GraphSearch search = {};
+    // GraphSearch search = {};
 
-    std::srand( std::time(nullptr) );
-    int startNum = std::rand() % (NUM_NODES-1);
-    int endNum = -1;
+    // std::srand( std::time(nullptr) );
+    // int startNum = std::rand() % (NUM_NODES-1);
+    // int endNum = -1;
 
-    do
-    {
-        endNum = std::rand() % NUM_NODES;
-    } while(startNum >= endNum);
+    // do
+    // {
+    //     endNum = std::rand() % NUM_NODES;
+    // } while(startNum >= endNum);
 
-    std::string start = CREATE_STRING(startNum);
-    std::string end = CREATE_STRING(endNum);
+    // std::string start = CREATE_STRING(startNum);
+    // std::string end = CREATE_STRING(endNum);
 
     // auto dfs = search.DFSRec( nodes[start], nodes[end] );
-    auto dfs = search.DFSIter( nodes[start], nodes[end] );
+    // auto dfs = search.DFSIter( nodes[start], nodes[end] );
     // auto dfs = search.BFTRec( graph );
     // auto dfs = search.BFTIter( graph );
-    printVector(dfs);
+    // printVector(dfs);
 
     // BFT_LINKED_CREATE_AND_PRINT_REC(100)
 
     // BFT_LINKED_CREATE_AND_PRINT_REC(10000)
 
     // BFT_LINKED_CREATE_AND_PRINT_ITER(10000)
+
+    DirectedGraph dirGraph = createRandomDAGIter(10);
+    dirGraph.printAdjacency();
 
     return 0;
 }
@@ -159,4 +164,36 @@ std::vector<Node> BFTIterLinkedList(const int numNodes)
     GraphSearch search = {};
 
     return search.BFTIter(graph);
+}
+
+DirectedGraph createRandomDAGIter(const int numNodes)
+{
+    DirectedGraph graph = {};
+
+    std::srand( std::time(nullptr) );
+
+    auto &nodes = graph.getAllNodes();
+
+    /* populate graph */
+    for(int i = 0; i < numNodes; i++)
+    {
+        std::string nodeVal = CREATE_STRING(i);
+        graph.addNode( nodeVal );
+    }
+
+    /* create some edges */
+    for(auto &node : nodes)
+    {
+        for(auto &other : nodes)
+        {
+            if(node.first == other.first) continue;
+
+            if( (float)(std::rand() % numNodes) / (float)(numNodes) <= EDGE_CHANCE )
+            {
+                graph.addDirectedEdge(&node.second, &other.second);
+            }
+        }
+    }
+
+    return graph;
 }

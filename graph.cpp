@@ -42,12 +42,6 @@ void Graph::removeUndirectedEdge(Node *first, Node *second)
 
 /* --================= EXTRA FUNCTIONS ============-- */
 
-void Graph::addDirectedEdge(Node *start, Node *end)
-{
-    // printf("link %s to %s\n", start.value.c_str(), end.value.c_str());
-    start->adjacency.push_back(end);
-}
-
 void Graph::printAdjacency()
 {
     for(auto &node : nodes)

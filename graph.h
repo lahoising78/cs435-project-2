@@ -33,8 +33,6 @@ public:
     void removeUndirectedEdge(Node *first, Node *second);
     std::map<std::string, Node> &getAllNodes() { return nodes; }
 
-    void addDirectedEdge(Node *start, Node *end);
-
     void printAdjacency();
 
 private:
