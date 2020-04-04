@@ -5,6 +5,7 @@
 #include "graph.h"
 #include "graph_search.h"
 #include "directed_graph.h"
+#include "top_sort.h"
 
 #define EDGE_CHANCE 0.1f
 #define NUM_NODES 5
@@ -59,8 +60,11 @@ int main(int argc, char *argv[])
 
     // BFT_LINKED_CREATE_AND_PRINT_ITER(10000)
 
-    DirectedGraph dirGraph = createRandomDAGIter(10);
+    DirectedGraph dirGraph = createRandomDAGIter( NUM_NODES );
     dirGraph.printAdjacency();
+
+    std::vector<Node> khan = TopSort::Kahns(&dirGraph);
+    printVector(khan);
 
     return 0;
 }

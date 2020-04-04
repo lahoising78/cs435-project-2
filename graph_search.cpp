@@ -1,4 +1,5 @@
 #include "graph_search.h"
+#include "graph_utils.h"
 
 /*  
     **********************
@@ -96,21 +97,6 @@ std::vector<Node> GraphSearch::DFSIter(const Node &start, const Node &end)
 BFS REC
 ****************
 */
-#define ENQUEUE_NODE_PRINT(node) (printf("enqueue %s\n", node.value.c_str()))
-template<class T>
-void enqueue(std::vector<T> &dst, const T val)
-{
-    dst.insert(dst.begin(), val);
-}
-
-template<class T>
-Node dequeue(std::vector<T> &queue)
-{
-    Node ret = queue.back();
-    queue.pop_back();
-    return ret;
-}
-
 std::vector<Node> GraphSearch::BFTRec(const Graph &graph)
 {
     std::vector<Node> ret;
