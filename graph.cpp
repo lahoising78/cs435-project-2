@@ -51,7 +51,7 @@ void Graph::printAdjacency()
         printf("%s: ", node.first.c_str());
         for(auto &adj : node.second.adjacency)
         {
-            printf("%s ", adj.first->value.c_str());
+            printf("(%s-%2d) ", adj.first->value.c_str(), adj.second);
         }
         printf("\n");
     }

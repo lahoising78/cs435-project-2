@@ -6,9 +6,11 @@
 #include "graph_search.h"
 #include "directed_graph.h"
 #include "top_sort.h"
+#include "weighted_graph.h"
 
 #define EDGE_CHANCE 0.1f
 #define NUM_NODES 5
+#define MAX_WEIGHT 10
 // #define CREATE_STRING(i) createString(i)                //nodes are labeled with letters
 #define CREATE_STRING(i) std::to_string(i)           //nodes are labeled with numbers
 
@@ -26,6 +28,8 @@ std::string createString(int i);
 std::vector<Node> BFTRecLinkedList(const int numNodes);
 std::vector<Node> BFTIterLinkedList(const int numNodes);
 DirectedGraph createRandomDAGIter(const int numNodes);
+WeightedGraph createRandomCompleteWeightedGraph(const int numNodes);
+WeightedGraph createWeightedLinkedList(const int numNodes);
 
 int main(int argc, char *argv[])
 {
@@ -54,9 +58,9 @@ int main(int argc, char *argv[])
     // auto dfs = search.BFTIter( graph );
     // printVector(dfs);
 
-    BFT_LINKED_CREATE_AND_PRINT_REC(100)
+    // BFT_LINKED_CREATE_AND_PRINT_REC(100)
 
-    BFT_LINKED_CREATE_AND_PRINT_REC(10000)
+    // BFT_LINKED_CREATE_AND_PRINT_REC(10000)
 
     // BFT_LINKED_CREATE_AND_PRINT_ITER(10000)
 
@@ -68,6 +72,12 @@ int main(int argc, char *argv[])
 
     // std::vector<Node> dfs = TopSort::mDFS(&dirGraph);
     // printVector(dfs);
+
+    WeightedGraph weight = createRandomCompleteWeightedGraph(NUM_NODES);
+    weight.printAdjacency();
+
+    WeightedGraph weightList = createWeightedLinkedList(NUM_NODES);
+    weightList.printAdjacency();
 
     return 0;
 }
@@ -204,6 +214,53 @@ DirectedGraph createRandomDAGIter(const int numNodes)
                     graph.addDirectedEdge(&node.second, &other.second);
             }
         }
+    }
+
+    return graph;
+}
+
+WeightedGraph createRandomCompleteWeightedGraph(const int numNodes)
+{
+    WeightedGraph graph = {};
+
+    std::srand( std::time(nullptr) );
+
+    auto &nodes = graph.getAllNodes();
+
+    /* create the nodes */
+    for(int i = 0; i < numNodes; i++)
+    {
+        graph.addNode( CREATE_STRING(i) );
+    }
+
+    /* create edges */
+    for(auto &node : nodes)
+    {
+        for(auto &other : nodes)
+        {
+            if(node.first == other.first) continue;
+            graph.addWeightedEdge(&node.second, &other.second, (std::rand() % MAX_WEIGHT) + 1);
+        }
+    }
+
+    return graph;
+}
+
+#define DEFAULT_WEIGHT 1
+WeightedGraph createWeightedLinkedList(const int numNodes)
+{
+    WeightedGraph graph = {};
+    auto &nodes = graph.getAllNodes();
+
+    graph.addNode( CREATE_STRING(0) );
+    for(int i = 1; i < numNodes; i++)
+    {
+        std::string cur = CREATE_STRING(i);
+        graph.addNode(cur);
+
+        std::string prev = CREATE_STRING(i-1);
+
+        graph.addWeightedEdge( &nodes[prev], &nodes[cur], DEFAULT_WEIGHT );
     }
 
     return graph;
