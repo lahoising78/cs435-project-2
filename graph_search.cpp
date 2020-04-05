@@ -40,7 +40,7 @@ void GraphSearch::DFSRecHelp(std::vector<Node>& path, std::map<std::string, bool
     int count = 0;
     for(auto edge : v.adjacency)
     {
-        stack.push_back(*edge);
+        stack.push_back(*edge.first);
         count++;
     }
     
@@ -83,7 +83,7 @@ std::vector<Node> GraphSearch::DFSIter(const Node &start, const Node &end)
 
         for(auto n : v.adjacency)
         {
-            stack.push_back(*n);
+            stack.push_back(*n.first);
         }
     }
 
@@ -112,6 +112,7 @@ std::vector<Node> GraphSearch::BFTRec(const Graph &graph)
 
 void GraphSearch::BFTRecHelp(const Graph &graph, std::vector<Node> &path, std::vector<Node> &queue, std::map<std::string, bool> &visited)
 {
+    printf("bft rec\n");
     if(queue.empty()) return;
 
     Node v = dequeue(queue);
@@ -124,8 +125,7 @@ void GraphSearch::BFTRecHelp(const Graph &graph, std::vector<Node> &path, std::v
     int count = v.adjacency.size();
     for(auto node : v.adjacency)
     {
-        // ENQUEUE_NODE_PRINT(graph.nodes[node]);
-        enqueue(queue, *node);
+        enqueue(queue, *node.first);
     }
 
     for(int i = 0; i < count; i++)
@@ -172,8 +172,8 @@ std::vector<Node> GraphSearch::BFTIter(const Graph &graph)
 
         for(auto n : v.adjacency)
         {
-            if(!visited[n->value])
-                enqueue(queue, *n);
+            if(!visited[n.first->value])
+                enqueue(queue, *n.first);
         }
 
         if(queue.empty() && path.size() != nodes.size())

@@ -7,6 +7,7 @@ class DirectedGraph : public Graph
 {
 public:
     void addDirectedEdge(Node *start, Node *end);
+    void removeDirectedEdge(Node *first, Node *second);
 };
 
 #endif

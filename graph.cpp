@@ -15,29 +15,31 @@ void Graph::addUndirectedEdge(Node *first, Node *second)
 {
     if(!first || !second) return;
     
-    first->adjacency.push_back(second);
-    second->adjacency.push_back(first);
+    first->adjacency[second] = 1;
+    second->adjacency[first] = 1;
 }
 
 void Graph::removeUndirectedEdge(Node *first, Node *second)
 {
     if(!first || !second) return;
 
-    auto it = first->adjacency.begin();
-    for(; it < first->adjacency.end(); it++)
-    {
-        if(*it == second) break;
-    }
+    first->adjacency[second] = 0;
+    second->adjacency[first] = 0;
+    // auto it = first->adjacency.begin();
+    // for(; it < first->adjacency.end(); it++)
+    // {
+    //     if(*it == second) break;
+    // }
 
-    if(it < first->adjacency.end()) first->adjacency.erase(it);
+    // if(it < first->adjacency.end()) first->adjacency.erase(it);
 
-    it = second->adjacency.begin();
-    for(; it < second->adjacency.end(); it++)
-    {
-        if(*it == first) break;
-    }
+    // it = second->adjacency.begin();
+    // for(; it < second->adjacency.end(); it++)
+    // {
+    //     if(*it == first) break;
+    // }
 
-    if(it < second->adjacency.end()) second->adjacency.erase(it);
+    // if(it < second->adjacency.end()) second->adjacency.erase(it);
 }
 
 /* --================= EXTRA FUNCTIONS ============-- */
@@ -49,7 +51,7 @@ void Graph::printAdjacency()
         printf("%s: ", node.first.c_str());
         for(auto &adj : node.second.adjacency)
         {
-            printf("%s ", adj->value.c_str());
+            printf("%s ", adj.first->value.c_str());
         }
         printf("\n");
     }

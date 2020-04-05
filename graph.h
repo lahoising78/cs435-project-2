@@ -12,7 +12,7 @@ class Node
 {
 public:
     std::string value;
-    std::vector<Node*> adjacency;
+    std::map<Node*, int> adjacency;
 
     Node() {}
     Node(std::string val)

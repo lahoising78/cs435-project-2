@@ -27,12 +27,12 @@ std::vector<Node> TopSort::Kahns(DirectedGraph *graph)
         Node n = dequeue(queue);
         ret.push_back(n);
 
-        for(auto *a : n.adjacency)
+        for(auto a : n.adjacency)
         {
-            inDegree[a->value]--;
-            if(inDegree[a->value] == 0)
+            inDegree[a.first->value]--;
+            if(inDegree[a.first->value] == 0)
             {
-                enqueue(queue, nodes[a->value]);
+                enqueue(queue, nodes[a.first->value]);
             }
         }
     }
@@ -72,9 +72,9 @@ void TopSort::mDFSRec(Node v, std::vector<Node> &stack, std::map<std::string, bo
 
     for(auto n : v.adjacency)
     {
-        if(!visited[n->value])
+        if(!visited[n.first->value])
         {
-            mDFSRec(*n, stack, visited);
+            mDFSRec(*n.first, stack, visited);
         }
     }
 
@@ -159,9 +159,9 @@ void TopSort::calculateInDegree(DirectedGraph *graph, std::map<std::string, int>
     for(auto n : nodes)
     {
         dst[n.second.value];
-        for(Node *a : n.second.adjacency)
+        for(auto a : n.second.adjacency)
         {
-            dst[a->value]++;
+            dst[a.first->value]++;
         }
     }
 

@@ -54,20 +54,20 @@ int main(int argc, char *argv[])
     // auto dfs = search.BFTIter( graph );
     // printVector(dfs);
 
-    // BFT_LINKED_CREATE_AND_PRINT_REC(100)
+    BFT_LINKED_CREATE_AND_PRINT_REC(100)
 
-    // BFT_LINKED_CREATE_AND_PRINT_REC(10000)
+    BFT_LINKED_CREATE_AND_PRINT_REC(10000)
 
     // BFT_LINKED_CREATE_AND_PRINT_ITER(10000)
 
-    DirectedGraph dirGraph = createRandomDAGIter( NUM_NODES );
-    dirGraph.printAdjacency();
+    // DirectedGraph dirGraph = createRandomDAGIter( NUM_NODES );
+    // dirGraph.printAdjacency();
 
-    std::vector<Node> khan = TopSort::Kahns(&dirGraph);
-    printVector(khan);
+    // std::vector<Node> khan = TopSort::Kahns(&dirGraph);
+    // printVector(khan);
 
-    std::vector<Node> dfs = TopSort::mDFS(&dirGraph);
-    printVector(dfs);
+    // std::vector<Node> dfs = TopSort::mDFS(&dirGraph);
+    // printVector(dfs);
 
     return 0;
 }
