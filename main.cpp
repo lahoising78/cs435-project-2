@@ -66,6 +66,9 @@ int main(int argc, char *argv[])
     std::vector<Node> khan = TopSort::Kahns(&dirGraph);
     printVector(khan);
 
+    std::vector<Node> dfs = TopSort::mDFS(&dirGraph);
+    printVector(dfs);
+
     return 0;
 }
 
@@ -173,6 +176,7 @@ std::vector<Node> BFTIterLinkedList(const int numNodes)
 DirectedGraph createRandomDAGIter(const int numNodes)
 {
     DirectedGraph graph = {};
+    GraphSearch search = {};
 
     std::srand( std::time(nullptr) );
 
@@ -194,7 +198,10 @@ DirectedGraph createRandomDAGIter(const int numNodes)
 
             if( (float)(std::rand() % numNodes) / (float)(numNodes) <= EDGE_CHANCE )
             {
-                graph.addDirectedEdge(&node.second, &other.second);
+                /* make sure you don't create a cycle by linking the nodes */
+                auto cycle = search.DFSIter(other.second, node.second);
+                if(cycle.empty())
+                    graph.addDirectedEdge(&node.second, &other.second);
             }
         }
     }

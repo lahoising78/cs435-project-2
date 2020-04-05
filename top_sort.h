@@ -3,6 +3,8 @@
 
 #include "directed_graph.h"
 
+#define REC
+
 class TopSort
 {
 public:
@@ -11,6 +13,10 @@ public:
 
 private:
     static void calculateInDegree(DirectedGraph *graph, std::map<std::string, int> &dst);
+
+    #ifdef REC
+    static void mDFSRec(Node v, std::vector<Node> &stack, std::map<std::string, bool> &visited);
+    #endif
 };
 
 #endif
