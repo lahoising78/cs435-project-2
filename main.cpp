@@ -31,6 +31,9 @@ DirectedGraph createRandomDAGIter(const int numNodes);
 WeightedGraph createRandomCompleteWeightedGraph(const int numNodes);
 WeightedGraph createWeightedLinkedList(const int numNodes);
 
+std::map<Node*, int> dijkstras(Node *start);
+bool allVisited(std::map<Node*, bool> &visited);
+
 int main(int argc, char *argv[])
 {
     // Graph graph = createRandomUnweightedGraphIter(NUM_NODES);
@@ -73,11 +76,25 @@ int main(int argc, char *argv[])
     // std::vector<Node> dfs = TopSort::mDFS(&dirGraph);
     // printVector(dfs);
 
-    WeightedGraph weight = createRandomCompleteWeightedGraph(NUM_NODES);
-    weight.printAdjacency();
+    // WeightedGraph weight = createRandomCompleteWeightedGraph(NUM_NODES);
+    // weight.printAdjacency();
 
-    WeightedGraph weightList = createWeightedLinkedList(NUM_NODES);
-    weightList.printAdjacency();
+    // WeightedGraph weightList = createWeightedLinkedList(NUM_NODES);
+    // weightList.printAdjacency();
+
+    WeightedGraph dgraph = createRandomCompleteWeightedGraph(NUM_NODES);
+    dgraph.printAdjacency();
+    std::srand( std::time(nullptr) );
+    std::string start = CREATE_STRING( std::rand() % dgraph.getAllNodes().size() );
+    auto dijks = dijkstras( &dgraph.getAllNodes()[start] );
+
+    printf("dijkstras: { ");
+    for(auto n : dijks)
+    {
+        if(!n.first) continue;
+        printf(" %s: %d ", n.first->value.c_str(), n.second);
+    }
+    printf("}\n");
 
     return 0;
 }
@@ -264,4 +281,68 @@ WeightedGraph createWeightedLinkedList(const int numNodes)
     }
 
     return graph;
+}
+
+std::map<Node*, int> dijkstras(Node *start)
+{
+    std::map<Node*, int> ret;
+    std::map<Node*, bool> visited;
+    std::map<Node*, Node*> parents;
+    Node *cur = start;
+
+    if(!start) return ret;
+
+    printf("start %s\n", start->value.c_str());
+
+    ret[start] = 0;
+
+    do
+    {
+        for(auto n : cur->adjacency)
+        {
+            /* make sure all values are in the map. default is false */
+            if(visited[n.first]) continue;
+
+            int distance = ret[cur] + n.second;
+            /* we have calculated a distance already */
+            if(parents[n.first])
+            {
+                if(distance > ret[n.first]) continue;
+                ret[n.first] = distance;
+                parents[n.first] = cur;
+            }
+            /* we haven't seen this node before */
+            else
+            {
+                parents[n.first] = cur;
+                ret[n.first] = distance;
+            }
+        }
+
+        visited[cur] = true;
+
+        /*  */
+        Node *min = nullptr;
+        for(auto n : ret)
+        {
+            if(visited[n.first]) continue;
+
+            if(!min) min = n.first;
+            else if(ret[min] > n.second) min = n.first;
+        }
+        cur = min;
+    } while (!allVisited(visited));
+    
+
+    return ret;
+}
+
+bool allVisited(std::map<Node*, bool> &visited)
+{
+    for(auto n : visited)
+    {
+        if(!n.second) return false;
+    }
+
+    return true;
 }
