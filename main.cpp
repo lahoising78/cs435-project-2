@@ -11,8 +11,8 @@
 #define EDGE_CHANCE 0.1f
 #define NUM_NODES 5
 #define MAX_WEIGHT 10
-// #define CREATE_STRING(i) createString(i)                //nodes are labeled with letters
-#define CREATE_STRING(i) std::to_string(i)           //nodes are labeled with numbers
+#define CREATE_STRING(i) createString(i)                //nodes are labeled with letters
+// #define CREATE_STRING(i) std::to_string(i)           //nodes are labeled with numbers
 
 #define BFT_LINKED_CREATE_AND_PRINT_REC(num) std::vector<Node> bft##num = BFTRecLinkedList(num); \
 printf("\n%d\n", num); \
@@ -33,6 +33,12 @@ WeightedGraph createWeightedLinkedList(const int numNodes);
 
 std::map<Node*, int> dijkstras(Node *start);
 bool allVisited(std::map<Node*, bool> &visited);
+
+typedef enum
+{
+    A = 0,
+    B, C, D, E, F, G
+} StringToNumber;
 
 int main(int argc, char *argv[])
 {
@@ -82,10 +88,54 @@ int main(int argc, char *argv[])
     // WeightedGraph weightList = createWeightedLinkedList(NUM_NODES);
     // weightList.printAdjacency();
 
+
+    /**
+     * @note test with a known graph (lecture 17 daily quiz) 
+    WeightedGraph dgraph = {};
+    for(int i = 0; i < 7; i++)
+    {
+        dgraph.addNode( CREATE_STRING(i) );
+    }
+
+    auto &nodes = dgraph.getAllNodes();
+    dgraph.addWeightedEdge( &nodes[ CREATE_STRING(A) ], &nodes[CREATE_STRING(B)], 2 );
+    dgraph.addWeightedEdge( &nodes[ CREATE_STRING(A) ], &nodes[CREATE_STRING(C)], 4 );
+    dgraph.addWeightedEdge( &nodes[ CREATE_STRING(A) ], &nodes[CREATE_STRING(D)], 7 );
+    dgraph.addWeightedEdge( &nodes[ CREATE_STRING(A) ], &nodes[CREATE_STRING(F)], 5 );
+
+    dgraph.addWeightedEdge( &nodes[ CREATE_STRING(B) ], &nodes[CREATE_STRING(A)], 2 );
+    dgraph.addWeightedEdge( &nodes[ CREATE_STRING(B) ], &nodes[CREATE_STRING(D)], 6 );
+    dgraph.addWeightedEdge( &nodes[ CREATE_STRING(B) ], &nodes[CREATE_STRING(E)], 3 );
+    dgraph.addWeightedEdge( &nodes[ CREATE_STRING(B) ], &nodes[CREATE_STRING(G)], 8 );
+
+    dgraph.addWeightedEdge( &nodes[ CREATE_STRING(C) ], &nodes[CREATE_STRING(A)], 4 );
+    dgraph.addWeightedEdge( &nodes[ CREATE_STRING(C) ], &nodes[CREATE_STRING(F)], 6 );
+
+    dgraph.addWeightedEdge( &nodes[ CREATE_STRING(D) ], &nodes[CREATE_STRING(A)], 7 );
+    dgraph.addWeightedEdge( &nodes[ CREATE_STRING(D) ], &nodes[CREATE_STRING(B)], 6 );
+    dgraph.addWeightedEdge( &nodes[ CREATE_STRING(D) ], &nodes[CREATE_STRING(F)], 10 );
+    dgraph.addWeightedEdge( &nodes[ CREATE_STRING(D) ], &nodes[CREATE_STRING(G)], 6 );
+
+    dgraph.addWeightedEdge( &nodes[ CREATE_STRING(E) ], &nodes[CREATE_STRING(B)], 3 );
+    dgraph.addWeightedEdge( &nodes[ CREATE_STRING(E) ], &nodes[CREATE_STRING(G)], 7 );
+
+    dgraph.addWeightedEdge( &nodes[ CREATE_STRING(F) ], &nodes[CREATE_STRING(A)], 5 );
+    dgraph.addWeightedEdge( &nodes[ CREATE_STRING(F) ], &nodes[CREATE_STRING(C)], 6 );
+    dgraph.addWeightedEdge( &nodes[ CREATE_STRING(F) ], &nodes[CREATE_STRING(D)], 10 );
+    dgraph.addWeightedEdge( &nodes[ CREATE_STRING(F) ], &nodes[CREATE_STRING(G)], 6 );
+
+    dgraph.addWeightedEdge( &nodes[ CREATE_STRING(G) ], &nodes[CREATE_STRING(B)], 8 );
+    dgraph.addWeightedEdge( &nodes[ CREATE_STRING(G) ], &nodes[CREATE_STRING(D)], 6 );
+    dgraph.addWeightedEdge( &nodes[ CREATE_STRING(G) ], &nodes[CREATE_STRING(E)], 7 );
+    dgraph.addWeightedEdge( &nodes[ CREATE_STRING(G) ], &nodes[CREATE_STRING(F)], 6 );
+
+    std::string start = "A";
+    */
+
     WeightedGraph dgraph = createRandomCompleteWeightedGraph(NUM_NODES);
     dgraph.printAdjacency();
     std::srand( std::time(nullptr) );
-    std::string start = CREATE_STRING( std::rand() % dgraph.getAllNodes().size() );
+    std::string start = CREATE_STRING( std::rand() % dgraph.getAllNodes().size() );    
     auto dijks = dijkstras( &dgraph.getAllNodes()[start] );
 
     printf("dijkstras: { ");
@@ -321,7 +371,7 @@ std::map<Node*, int> dijkstras(Node *start)
 
         visited[cur] = true;
 
-        /*  */
+        /* select new cur */
         Node *min = nullptr;
         for(auto n : ret)
         {
@@ -331,7 +381,7 @@ std::map<Node*, int> dijkstras(Node *start)
             else if(ret[min] > n.second) min = n.first;
         }
         cur = min;
-    } while (!allVisited(visited));
+    } while (cur != nullptr);
     
 
     return ret;
