@@ -7,12 +7,13 @@
 #include "directed_graph.h"
 #include "top_sort.h"
 #include "weighted_graph.h"
+#include "grid_graph.h"
 
 #define EDGE_CHANCE 0.1f
 #define NUM_NODES 5
 #define MAX_WEIGHT 10
-#define CREATE_STRING(i) createString(i)                //nodes are labeled with letters
-// #define CREATE_STRING(i) std::to_string(i)           //nodes are labeled with numbers
+// #define CREATE_STRING(i) createString(i)                //nodes are labeled with letters
+#define CREATE_STRING(i) std::to_string(i)           //nodes are labeled with numbers
 
 #define BFT_LINKED_CREATE_AND_PRINT_REC(num) std::vector<Node> bft##num = BFTRecLinkedList(num); \
 printf("\n%d\n", num); \
@@ -24,12 +25,19 @@ printVector(bft##num); \
 
 Graph createRandomUnweightedGraphIter(int n);
 Graph createLinkedList(int n);
+
 std::string createString(int i);
+
 std::vector<Node> BFTRecLinkedList(const int numNodes);
 std::vector<Node> BFTIterLinkedList(const int numNodes);
+
 DirectedGraph createRandomDAGIter(const int numNodes);
+
 WeightedGraph createRandomCompleteWeightedGraph(const int numNodes);
 WeightedGraph createWeightedLinkedList(const int numNodes);
+
+GridGraph createRandomGridGraph(const int n);
+void createRandomUndirectedEdge(GridGraph &graph, GridNode &first, GridNode &second);
 
 std::map<Node*, int> dijkstras(Node *start);
 bool allVisited(std::map<Node*, bool> &visited);
@@ -132,19 +140,22 @@ int main(int argc, char *argv[])
     std::string start = "A";
     */
 
-    WeightedGraph dgraph = createRandomCompleteWeightedGraph(NUM_NODES);
-    dgraph.printAdjacency();
-    std::srand( std::time(nullptr) );
-    std::string start = CREATE_STRING( std::rand() % dgraph.getAllNodes().size() );    
-    auto dijks = dijkstras( &dgraph.getAllNodes()[start] );
+    // WeightedGraph dgraph = createRandomCompleteWeightedGraph(NUM_NODES);
+    // dgraph.printAdjacency();
+    // std::srand( std::time(nullptr) );
+    // std::string start = CREATE_STRING( std::rand() % dgraph.getAllNodes().size() );    
+    // auto dijks = dijkstras( &dgraph.getAllNodes()[start] );
 
-    printf("dijkstras: { ");
-    for(auto n : dijks)
-    {
-        if(!n.first) continue;
-        printf(" %s: %d ", n.first->value.c_str(), n.second);
-    }
-    printf("}\n");
+    // printf("dijkstras: { ");
+    // for(auto n : dijks)
+    // {
+    //     if(!n.first) continue;
+    //     printf(" %s: %d ", n.first->value.c_str(), n.second);
+    // }
+    // printf("}\n");
+
+    auto grid = createRandomGridGraph(NUM_NODES);
+    grid.printGrid();
 
     return 0;
 }
@@ -395,4 +406,31 @@ bool allVisited(std::map<Node*, bool> &visited)
     }
 
     return true;
+}
+
+GridGraph createRandomGridGraph(const int n)
+{
+    GridGraph graph = {};
+
+    for(int y = 0; y < n; y++)
+    {
+        for(int x = 0; x < n; x++)
+        {
+            graph.addGridNode(x, y, CREATE_STRING(x + y * n));
+        }
+    }
+
+    // auto &nodes = graph.getAllNodes();
+
+    // for(auto &n : nodes)
+    // {
+        
+    // }
+    return graph;
+}
+
+void createRandomUndirectedEdge(GridGraph &graph, GridNode &first, GridNode &second)
+{
+    std::srand( std::time(nullptr) );
+
 }

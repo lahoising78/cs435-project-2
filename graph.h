@@ -14,7 +14,7 @@ public:
     std::string value;
     std::map<Node*, int> adjacency;
 
-    Node() {}
+    Node() { value = ""; }
     Node(std::string val)
     {
         value = val;
