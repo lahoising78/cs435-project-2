@@ -4,7 +4,7 @@
 void GridGraph::addGridNode(const int x, const int y, std::string nodeVal)
 {
     GridNode node = GridNode(x, y, nodeVal);
-    // printf("insert grid node: %d\n", nodes.insert(node).second);
+    // printf("insert grid node: %s\n", nodeVal.c_str());
     nodes[node.position] = node;
 }
 
@@ -14,6 +14,7 @@ void GridGraph::addUndirectedEdge(GridNode *first, GridNode *second)
 
     if(!(first->position.x - second->position.x == 0) && !(first->position.y - second->position.y == 0)) return;
 
+    // printf("add edge %s %s\n", first->value.c_str(), second->value.c_str());
     first->adjacency[second] = 1;
     second->adjacency[first] = 1;
 }
@@ -29,6 +30,7 @@ void GridGraph::printAdjacency()
 {
     for(auto &n : nodes)
     {
+        // if(n.second.value.length() == 0) continue;
         printf("%s: ", n.second.value.c_str());
         for(auto &a : n.second.adjacency)
         {

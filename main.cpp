@@ -156,6 +156,7 @@ int main(int argc, char *argv[])
 
     auto grid = createRandomGridGraph(NUM_NODES);
     grid.printGrid();
+    grid.printAdjacency();
 
     return 0;
 }
@@ -422,25 +423,60 @@ GridGraph createRandomGridGraph(const int n)
 
     auto &nodes = graph.getAllNodes();
 
-    // for(auto &n : nodes)
-    // {
-    //     GridNode temp = {};
+    std::srand( std::time(nullptr) );
 
-    //     temp.position = {n.position.x - 1, n.position.y};
-    //     createRandomUndirectedEdge(graph, n, nodes.find(temp) );
-    //     graph.addUndirectedEdge(&n, &(*nodes.find(temp)));
+    bool skip = true;
+    for(auto &node : nodes)
+    {
+        /* to make sure we dont try to add edges several times per node. we are skipping adjacent nodes with this */
+        if(n % 2 == 0)
+        {
+            if(node.first.x != 0)
+                skip = !skip;
+        }
+        else
+        {
+            skip = !skip;
+        }
 
-    //     placed[n] = true;
-    // }
+        if(skip)
+        {
+            continue;
+        }
+
+        vec2d temp = node.first;
+        temp.x -= 1;
+        if(temp.x > -1)
+        {
+            createRandomUndirectedEdge(graph, node.second, nodes[temp] );
+            // printf("node %s\n", node.second.value.c_str());
+            // printf("node %s\n", nodes[temp].value.c_str());
+        }
+
+        temp = node.first;
+        temp.x += 1;
+        if(temp.x < n)
+            createRandomUndirectedEdge(graph, node.second, nodes[temp] );
+
+        temp = node.first;
+        temp.y -= 1;
+        if(temp.y > -1)
+            createRandomUndirectedEdge(graph, node.second, nodes[temp] );
+
+        temp = node.first;
+        temp.y += 1;
+        if(temp.y < n)
+            createRandomUndirectedEdge(graph, node.second, nodes[temp] );
+    }
 
     return graph;
 }
 
 void createRandomUndirectedEdge(GridGraph &graph, GridNode &first, GridNode &second)
 {
-    std::srand( std::time(nullptr) );
-
-    if(!(std::rand() % 2)) return;
+    bool p = !(std::rand() % 2);
+    // printf("p = %d\n", p);
+    if(p) return;
 
     graph.addUndirectedEdge(&first, &second);
 }

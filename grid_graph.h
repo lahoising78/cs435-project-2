@@ -8,9 +8,15 @@ typedef struct vec2d_t
 {
     int x, y;
 
-    bool operator==(const struct vec2d_t &other) const
+    bool operator==(const vec2d_t &other) const
     {
         return x == other.x && y == other.y;
+    }
+
+    bool operator<(const vec2d_t &other) const
+    {
+        if(other.y == y) return x < other.x;
+        else return y < other.y;
     }
 } vec2d;
 
@@ -24,18 +30,20 @@ public:
     }
 };
 
-class GridNode : public Node
+class GridNode
 {
 public:
     vec2d position;
+    std::string value;
+    std::unordered_map<GridNode*, int> adjacency;
 
-    GridNode() : Node() { position.x = position.y = -1; }
+    GridNode() { position.x = position.y = -1; }
 
-    GridNode(const int x, const int y, std::string nodeVal) 
-        : Node(nodeVal)
+    GridNode(const int x, const int y, std::string nodeVal)
     {
         position.x = x;
         position.y = y;
+        value = nodeVal;
     }
 
     bool operator==(const GridNode &other) const 
@@ -64,13 +72,15 @@ public:
     void addGridNode(const int x, const int y, std::string nodeVal);
     void addUndirectedEdge(GridNode *first, GridNode *second);
     void removeUndirectedEdge(GridNode *first, GridNode *second);
-    std::unordered_map<vec2d, GridNode, Vec2dHash> &getAllNodes() { return nodes; }
+    // std::map<vec2d, GridNode, Vec2dHash> &getAllNodes() { return nodes; }
+    std::map<vec2d, GridNode> &getAllNodes() { return nodes; }
 
     void printAdjacency();
     void printGrid();
 
 private:
-    std::unordered_map<vec2d, GridNode, Vec2dHash> nodes;
+    // std::map<vec2d, GridNode, Vec2dHash> nodes;
+    std::map<vec2d, GridNode> nodes;
 
 };
 
