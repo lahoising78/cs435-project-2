@@ -5,7 +5,7 @@ void GridGraph::addGridNode(const int x, const int y, std::string nodeVal)
 {
     GridNode node = GridNode(x, y, nodeVal);
     // printf("insert grid node: %d\n", nodes.insert(node).second);
-    nodes.insert(node);
+    nodes[node.position] = node;
 }
 
 void GridGraph::addUndirectedEdge(GridNode *first, GridNode *second)
@@ -29,8 +29,8 @@ void GridGraph::printAdjacency()
 {
     for(auto &n : nodes)
     {
-        printf("%s: ", n.value.c_str());
-        for(auto &a : n.adjacency)
+        printf("%s: ", n.second.value.c_str());
+        for(auto &a : n.second.adjacency)
         {
             printf("(%s-%2d) ", a.first->value.c_str(), a.second);
         }
@@ -48,9 +48,9 @@ void GridGraph::printGrid()
     for(const auto &node : nodes)
     {
         // printf("node ");
-        if(node.position.x > max.x) max.x = node.position.x;
-        if(node.position.y > max.y) max.y = node.position.y;
-        if(node.value.length() > maxLen) maxLen = node.value.length();
+        if(node.second.position.x > max.x) max.x = node.second.position.x;
+        if(node.second.position.y > max.y) max.y = node.second.position.y;
+        if(node.second.value.length() > maxLen) maxLen = node.second.value.length();
         // i++;
     }
 
@@ -77,8 +77,8 @@ void GridGraph::printGrid()
     // printf("copy what you must\n");
     for(auto &node : nodes)
     {
-        int s = node.position.x * maxLen + node.position.y * max.x;
-        memcpy( &output[s], node.value.c_str(), node.value.length() );
+        int s = node.second.position.x * maxLen + node.second.position.y * max.x;
+        memcpy( &output[s], node.second.value.c_str(), node.second.value.length() );
         // printf("copy %lu characters at %d\n", node.value.length(), s);
     }
 

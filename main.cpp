@@ -420,12 +420,19 @@ GridGraph createRandomGridGraph(const int n)
         }
     }
 
-    // auto &nodes = graph.getAllNodes();
+    auto &nodes = graph.getAllNodes();
 
     // for(auto &n : nodes)
     // {
-        
+    //     GridNode temp = {};
+
+    //     temp.position = {n.position.x - 1, n.position.y};
+    //     createRandomUndirectedEdge(graph, n, nodes.find(temp) );
+    //     graph.addUndirectedEdge(&n, &(*nodes.find(temp)));
+
+    //     placed[n] = true;
     // }
+
     return graph;
 }
 
@@ -433,4 +440,7 @@ void createRandomUndirectedEdge(GridGraph &graph, GridNode &first, GridNode &sec
 {
     std::srand( std::time(nullptr) );
 
+    if(!(std::rand() % 2)) return;
+
+    graph.addUndirectedEdge(&first, &second);
 }

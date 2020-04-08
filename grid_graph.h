@@ -2,12 +2,27 @@
 #define _GRID_GRAPH_H_
 
 #include "graph.h"
-#include <unordered_set>
+#include <unordered_map>
 
-typedef struct
+typedef struct vec2d_t
 {
     int x, y;
+
+    bool operator==(const struct vec2d_t &other) const
+    {
+        return x == other.x && y == other.y;
+    }
 } vec2d;
+
+class Vec2dHash
+{
+public:
+    size_t operator()(const vec2d &vec) const
+    {
+        return (std::hash<int>()(vec.x)) ^ (std::hash<int>()(vec.y));
+        // return (std::hash<int>()(node.position.x) * 73856093) ^ (std::hash<int>()(node.position.y) * 19349663);
+    }
+};
 
 class GridNode : public Node
 {
@@ -49,13 +64,13 @@ public:
     void addGridNode(const int x, const int y, std::string nodeVal);
     void addUndirectedEdge(GridNode *first, GridNode *second);
     void removeUndirectedEdge(GridNode *first, GridNode *second);
-    std::unordered_set<GridNode, GridNodeHash> &getAllNodes() { return nodes; }
+    std::unordered_map<vec2d, GridNode, Vec2dHash> &getAllNodes() { return nodes; }
 
     void printAdjacency();
     void printGrid();
 
 private:
-    std::unordered_set<GridNode, GridNodeHash> nodes;
+    std::unordered_map<vec2d, GridNode, Vec2dHash> nodes;
 
 };
 
