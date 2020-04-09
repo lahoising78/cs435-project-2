@@ -42,6 +42,8 @@ void createRandomUndirectedEdge(GridGraph &graph, GridNode &first, GridNode &sec
 std::map<Node*, int> dijkstras(Node *start);
 bool allVisited(std::map<Node*, bool> &visited);
 
+std::vector<GridNode*> astar(GridNode *sourceNode, GridNode *destNode);
+
 typedef enum
 {
     A = 0,
@@ -157,6 +159,22 @@ int main(int argc, char *argv[])
     auto grid = createRandomGridGraph(NUM_NODES);
     grid.printGrid();
     grid.printAdjacency();
+
+    GridNode *startGridNode = &grid.getAllNodes()[ {0, 0} ];
+    GridNode *endGridNode = &grid.getAllNodes()[ {NUM_NODES - 1, NUM_NODES - 1} ];
+    
+    if(startGridNode && endGridNode) 
+        printf("startGridNode: %s, endGridNode: %s\n", startGridNode->value.c_str(), endGridNode->value.c_str());
+    else
+        printf("startGridNode or endGridNode don't exist\n");
+
+    auto as = astar( startGridNode, endGridNode );
+    printf("a*: {");
+    for(auto n : as)
+    {
+        printf(" %s ", n->value.c_str());
+    }
+    printf("}\n");
 
     return 0;
 }
@@ -475,8 +493,75 @@ GridGraph createRandomGridGraph(const int n)
 void createRandomUndirectedEdge(GridGraph &graph, GridNode &first, GridNode &second)
 {
     bool p = !(std::rand() % 2);
-    // printf("p = %d\n", p);
     if(p) return;
 
     graph.addUndirectedEdge(&first, &second);
+}
+
+std::vector<GridNode*> astar(GridNode *sourceNode, GridNode *destNode)
+{
+    std::vector<GridNode*> ret;
+    std::map<GridNode*, bool> visited;
+    std::map<GridNode*, int> d;
+    std::map<GridNode*, GridNode*> par;
+    std::map<GridNode*, int> h;
+    if(!sourceNode || !destNode) return ret;
+
+    // if( !sourceNode->value.length() || !destNode->value.length() )
+    // {
+    //     printf("no values: %lu, %lu\n", sourceNode->value.length(), destNode->value.length());
+    //     return ret;
+    // }
+
+    printf("enter a*\n");
+    printf("start: %s, end: %s\n", sourceNode->value.c_str(), destNode->value.c_str());
+
+    GridNode *cur = sourceNode;
+    d[destNode] = 0;
+    h[destNode] = 0;
+    
+    do
+    {
+        ret.push_back(cur);
+
+        for(auto node : cur->adjacency)
+        {
+            if(visited[node.first]) continue;
+
+            int distance = d[cur] + node.second;
+
+            if(par[node.first])
+            {
+                if( d[node.first] < distance ) continue;
+
+                par[node.first] = cur;
+                d[node.first] = distance;
+            }
+            else
+            {
+                /* the max is to include diagonals */
+                h[node.first] = std::max(
+                    std::abs( node.first->position.x - destNode->position.x ), 
+                    std::abs( node.first->position.y - destNode->position.y )
+                );
+                
+                par[node.first] = cur;
+                d[node.first] = distance;
+            }
+        }
+
+        visited[cur] = true;
+        GridNode *min = nullptr;
+        for(auto e : par)
+        {
+            if(visited[e.first]) continue;
+
+            if(!min) min = e.first;
+            else if ( d[e.first] + h[e.first] < d[min] + h[min] ) min = e.first;
+        }
+        cur = min;
+    } while(cur != destNode && cur != nullptr);
+    if(cur != nullptr) ret.push_back(cur);
+
+    return ret;
 }
