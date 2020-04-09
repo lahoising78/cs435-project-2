@@ -8,9 +8,10 @@
 #include "top_sort.h"
 #include "weighted_graph.h"
 #include "grid_graph.h"
+#include "graph_utils.h"
 
 #define EDGE_CHANCE 0.1f
-#define NUM_NODES 5
+#define NUM_NODES 100
 #define MAX_WEIGHT 10
 // #define CREATE_STRING(i) createString(i)                //nodes are labeled with letters
 #define CREATE_STRING(i) std::to_string(i)           //nodes are labeled with numbers
@@ -83,21 +84,25 @@ int main(int argc, char *argv[])
 
     // BFT_LINKED_CREATE_AND_PRINT_ITER(10000)
 
-    // DirectedGraph dirGraph = createRandomDAGIter( NUM_NODES );
-    // dirGraph.printAdjacency();
+    /** @note =============CREATE RANDOM DAG ITER=========== */
+    /* DirectedGraph dirGraph = createRandomDAGIter( 1000 );
+    dirGraph.printAdjacency(); */
 
-    // std::vector<Node> khan = TopSort::Kahns(&dirGraph);
-    // printVector(khan);
+    /** @note ===============KHAN'S=========== */
+    /* std::vector<Node> khan = TopSort::Kahns(&dirGraph);
+    printVector(khan); */
 
-    // std::vector<Node> dfs = TopSort::mDFS(&dirGraph);
-    // printVector(dfs);
+    /** @note ==============MODIFIED DFS============ */
+    /* std::vector<Node> dfs = TopSort::mDFS(&dirGraph);
+    printVector(dfs); */
 
-    // WeightedGraph weight = createRandomCompleteWeightedGraph(NUM_NODES);
-    // weight.printAdjacency();
+    /** @note ==============CREATE RANDOM COMPLETE WEIGHTED GRAPH========== */ 
+    /* WeightedGraph weight = createRandomCompleteWeightedGraph(NUM_NODES);
+    weight.printAdjacency(); */
 
-    // WeightedGraph weightList = createWeightedLinkedList(NUM_NODES);
-    // weightList.printAdjacency();
-
+    /** @note ==============CREATE WEIGHTED LINKED LIST============== */ 
+    /* WeightedGraph weightList = createWeightedLinkedList(NUM_NODES);
+    weightList.printAdjacency(); */
 
     /**
      * @note test with a known graph (lecture 17 daily quiz) 
@@ -142,20 +147,22 @@ int main(int argc, char *argv[])
     std::string start = "A";
     */
 
-    // WeightedGraph dgraph = createRandomCompleteWeightedGraph(NUM_NODES);
-    // dgraph.printAdjacency();
-    // std::srand( std::time(nullptr) );
-    // std::string start = CREATE_STRING( std::rand() % dgraph.getAllNodes().size() );    
-    // auto dijks = dijkstras( &dgraph.getAllNodes()[start] );
+    /** @note ============DIJKSTRA'S=========== */
+    /* WeightedGraph dgraph = createRandomCompleteWeightedGraph(NUM_NODES);
+    dgraph.printAdjacency();
+    std::srand( std::time(nullptr) );
+    std::string start = CREATE_STRING( std::rand() % dgraph.getAllNodes().size() );    
+    auto dijks = dijkstras( &dgraph.getAllNodes()[start] );
 
-    // printf("dijkstras: { ");
-    // for(auto n : dijks)
-    // {
-    //     if(!n.first) continue;
-    //     printf(" %s: %d ", n.first->value.c_str(), n.second);
-    // }
-    // printf("}\n");
+    printf("dijkstras: { ");
+    for(auto n : dijks)
+    {
+        if(!n.first) continue;
+        printf(" %s: %d ", n.first->value.c_str(), n.second);
+    }
+    printf("}\n"); */
 
+    /** @note ==========A START=========== */
     auto grid = createRandomGridGraph(NUM_NODES);
     grid.printGrid();
     grid.printAdjacency();
@@ -170,9 +177,16 @@ int main(int argc, char *argv[])
 
     auto as = astar( startGridNode, endGridNode );
     printf("a*: {");
-    for(auto n : as)
+    if(as.size() == 0)
     {
-        printf(" %s ", n->value.c_str());
+        printf(" no solution ");
+    }
+    else
+    {
+        for(auto n : as)
+        {
+            printf(" %s ", n->value.c_str());
+        }
     }
     printf("}\n");
 
@@ -492,7 +506,7 @@ GridGraph createRandomGridGraph(const int n)
 
 void createRandomUndirectedEdge(GridGraph &graph, GridNode &first, GridNode &second)
 {
-    bool p = !(std::rand() % 2);
+    bool p = std::rand() % 2 == 0;
     if(p) return;
 
     graph.addUndirectedEdge(&first, &second);
@@ -519,10 +533,11 @@ std::vector<GridNode*> astar(GridNode *sourceNode, GridNode *destNode)
     GridNode *cur = sourceNode;
     d[destNode] = 0;
     h[destNode] = 0;
+    par[cur] = nullptr;
     
     do
     {
-        ret.push_back(cur);
+        // ret.push_back(cur);
 
         for(auto node : cur->adjacency)
         {
@@ -561,7 +576,15 @@ std::vector<GridNode*> astar(GridNode *sourceNode, GridNode *destNode)
         }
         cur = min;
     } while(cur != destNode && cur != nullptr);
-    if(cur != nullptr) ret.push_back(cur);
+    
+    if(cur != nullptr) 
+    {
+        do{
+            enqueue(ret, cur);
+            cur = par[cur];
+        } while(cur != nullptr);
+        // ret.push_back(cur);
+    }
 
     return ret;
 }
