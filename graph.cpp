@@ -23,8 +23,8 @@ void Graph::removeUndirectedEdge(Node *first, Node *second)
 {
     if(!first || !second) return;
 
-    first->adjacency[second] = 0;
-    second->adjacency[first] = 0;
+    first->adjacency.erase(second);
+    second->adjacency.erase(first);
     // auto it = first->adjacency.begin();
     // for(; it < first->adjacency.end(); it++)
     // {
