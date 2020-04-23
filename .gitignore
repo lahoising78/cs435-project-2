@@ -7,3 +7,6 @@ Project 2 - Graphs (Edited).pdf
 *.docx
 app
 .vscode/
+comments/
+bin/
+executables/

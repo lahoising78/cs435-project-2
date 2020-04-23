@@ -12,8 +12,6 @@ std::vector<Node> GraphSearch::DFSRec(const Node &start, const Node &end)
     std::map<std::string, bool> visited;
     std::vector<Node> stack;
 
-    printf("start: %s\t\tend: %s\n", start.value.c_str(), end.value.c_str());
-
     stack.push_back(start);
     DFSRecHelp(ret, visited, stack, end.value);
     if(ret.back().value != end.value) ret.clear();
@@ -25,20 +23,20 @@ void GraphSearch::DFSRecHelp(std::vector<Node>& path, std::map<std::string, bool
 {
     if(stack.empty()) return;
 
-    Node v = stack.back();
+    Node curr = stack.back();
     stack.pop_back();
 
-    if( visited[v.value] ) return;
-    visited[v.value] = true;
+    if( visited[curr.value] ) return;
+    visited[curr.value] = true;
 
-    path.push_back(v);
-    if( v.value == end ) 
+    path.push_back(curr);
+    if( curr.value == end ) 
     {
         return;
     }
 
     int count = 0;
-    for(auto edge : v.adjacency)
+    for(auto edge : curr.adjacency)
     {
         stack.push_back(*edge.first);
         count++;
@@ -62,8 +60,6 @@ void GraphSearch::DFSRecHelp(std::vector<Node>& path, std::map<std::string, bool
 std::vector<Node> GraphSearch::DFSIter(const Node &start, const Node &end)
 {
     
-    printf("start: %s\t\tend: %s\n", start.value.c_str(), end.value.c_str());
-
     std::vector<Node> path;
     std::vector<Node> stack;
     std::map<std::string, bool> visited;
@@ -72,18 +68,18 @@ std::vector<Node> GraphSearch::DFSIter(const Node &start, const Node &end)
 
     while(!stack.empty())
     {
-        Node v = stack.back();
+        Node curr = stack.back();
         stack.pop_back();
 
-        if(visited[v.value]) continue;
-        visited[v.value] = true;
+        if(visited[curr.value]) continue;
+        visited[curr.value] = true;
 
-        path.push_back( v );
-        if(v.value == end.value) break;
+        path.push_back( curr );
+        if(curr.value == end.value) break;
 
-        for(auto n : v.adjacency)
+        for(auto node : curr.adjacency)
         {
-            stack.push_back(*n.first);
+            stack.push_back(*node.first);
         }
     }
 
@@ -112,18 +108,17 @@ std::vector<Node> GraphSearch::BFTRec(const Graph &graph)
 
 void GraphSearch::BFTRecHelp(const Graph &graph, std::vector<Node> &path, std::vector<Node> &queue, std::map<std::string, bool> &visited)
 {
-    printf("bft rec\n");
     if(queue.empty()) return;
 
-    Node v = dequeue(queue);
+    Node curr = dequeue(queue);
 
-    if(visited[v.value]) return;
-    visited[v.value] = true;
+    if(visited[curr.value]) return;
+    visited[curr.value] = true;
 
-    path.push_back(v);
+    path.push_back(curr);
 
-    int count = v.adjacency.size();
-    for(auto node : v.adjacency)
+    int count = curr.adjacency.size();
+    for(auto node : curr.adjacency)
     {
         enqueue(queue, *node.first);
     }
@@ -139,7 +134,6 @@ void GraphSearch::BFTRecHelp(const Graph &graph, std::vector<Node> &path, std::v
         {
             if(visited[node.second.value]) continue;
 
-            // ENQUEUE_NODE_PRINT(node.second);
             enqueue(queue, node.second);
             BFTRecHelp(graph, path, queue, visited);
             break;
@@ -163,27 +157,27 @@ std::vector<Node> GraphSearch::BFTIter(const Graph &graph)
 
     while(!queue.empty())
     {
-        Node v = dequeue(queue);
+        Node curr = dequeue(queue);
 
-        if(visited[v.value]) continue;
-        visited[v.value] = true;
+        if(visited[curr.value]) continue;
+        visited[curr.value] = true;
 
-        path.push_back( v );
+        path.push_back( curr );
 
-        for(auto n : v.adjacency)
+        for(auto nodeKeyValue : curr.adjacency)
         {
-            if(!visited[n.first->value])
-                enqueue(queue, *n.first);
+            if(!visited[nodeKeyValue.first->value])
+                enqueue(queue, *nodeKeyValue.first);
         }
 
         if(queue.empty() && path.size() != nodes.size())
         {
-            for(auto n : graph.nodes)
+            for(auto nodeKeyValue : graph.nodes)
             {
-                if(visited[n.first]) continue;
+                if(visited[nodeKeyValue.first]) continue;
 
                 // ENQUEUE_NODE_PRINT(node.second);
-                enqueue(queue, n.second);
+                enqueue(queue, nodeKeyValue.second);
                 break;
             }
         }

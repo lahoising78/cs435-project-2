@@ -19,6 +19,30 @@ public:
     {
         value = val;
     }
+
+    void removeEdge(const Node *other)
+    {
+        auto it = adjacency.begin();
+        for(; it != adjacency.end(); it++)
+            if(it->first == other) break;
+
+        if( it != adjacency.end() )
+            adjacency.erase(it);
+    }
+
+    friend bool operator<(const Node &lhs, const Node &rhs)
+    {
+        if(lhs.value.length() == rhs.value.length())
+            return lhs.value < rhs.value;
+        else
+            return lhs.value.length() < rhs.value.length();
+    }
+
+    friend std::ostream &operator<<(std::ostream &os, const Node &node)
+    {
+        os << node.value;
+        return os;
+    }
 };
 
 void printVector(std::vector<Node>);

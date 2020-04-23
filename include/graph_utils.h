@@ -3,7 +3,8 @@
 
 #include <vector>
 
-#define ENQUEUE_NODE_PRINT(node) (printf("enqueue %s\n", node.value.c_str()))
+constexpr void enqueue_node_print(const char *node) { printf("enqueue %s\n", node); }
+
 template<class T>
 void enqueue(std::vector<T> &dst, const T val)
 {

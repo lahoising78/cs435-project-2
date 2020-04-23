@@ -1,12 +1,16 @@
 <h1>Project 2</h1>
 
 <h2>Building and Running</h2>
+<h4><strong>Linux</strong></h4>
 <p>To build the project follow these steps:</p> 
 <ul>
     <li>Clone the project using <code>git clone https://github.com/lahoising78/cs435-project-2.git</code></li>
-    <li>In bash, go to the directory where the clone was cloned and type <code>make</code></li>
+    <li>
+        In bash, go to the directory where the repository was cloned and type <code>make</code>. 
+        This will compile all tests and place the executables in a folder called executables/
+    </li>
 </ul>
-<p>To run the application use <code>./app</code></p>
+<p>To run a test case use <code>./executables/name-of-test-case</code></p>
 
 <h2>Output Samples</h2>
 <h4>BFT Iter</h4>

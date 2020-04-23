@@ -1,5 +1,6 @@
 #include "top_sort.h"
 #include "graph_utils.h"
+#include <algorithm>
 
 void enqueueZeroes(std::vector<Node> &queue, std::map<std::string, int> &inDegree, DirectedGraph *graph)
 {
@@ -7,7 +8,9 @@ void enqueueZeroes(std::vector<Node> &queue, std::map<std::string, int> &inDegre
     for(auto n : inDegree)
     {
         if(n.second == 0)
+        {
             enqueue(queue, nodes[n.first]);
+        }
     }
 }
 
@@ -57,13 +60,9 @@ std::vector<Node> TopSort::mDFS(DirectedGraph *graph)
         }
     }
 
-    while(!stack.empty())
-    {
-        ret.push_back(stack.back());
-        stack.pop_back();
-    }
+    std::reverse(stack.begin(), stack.end());
 
-    return ret;
+    return stack;
 }
 
 void TopSort::mDFSRec(Node v, std::vector<Node> &stack, std::map<std::string, bool> &visited)
@@ -164,11 +163,4 @@ void TopSort::calculateInDegree(DirectedGraph *graph, std::map<std::string, int>
             dst[a.first->value]++;
         }
     }
-
-    printf("{");    
-    for(auto d : dst)
-    {
-        printf(" %s: %d ", d.first.c_str(), d.second);
-    }
-    printf("}\n");
 }

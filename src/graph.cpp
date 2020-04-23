@@ -5,7 +5,6 @@
 void Graph::addNode(const std::string nodeVal)
 {
     Node n(nodeVal);
-    // n.value = nodeVal;
 
     nodes[nodeVal] = n;
     n.adjacency.clear();
@@ -25,21 +24,6 @@ void Graph::removeUndirectedEdge(Node *first, Node *second)
 
     first->adjacency.erase(second);
     second->adjacency.erase(first);
-    // auto it = first->adjacency.begin();
-    // for(; it < first->adjacency.end(); it++)
-    // {
-    //     if(*it == second) break;
-    // }
-
-    // if(it < first->adjacency.end()) first->adjacency.erase(it);
-
-    // it = second->adjacency.begin();
-    // for(; it < second->adjacency.end(); it++)
-    // {
-    //     if(*it == first) break;
-    // }
-
-    // if(it < second->adjacency.end()) second->adjacency.erase(it);
 }
 
 /* --================= EXTRA FUNCTIONS ============-- */
