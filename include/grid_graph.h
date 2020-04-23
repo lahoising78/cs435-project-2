@@ -26,7 +26,6 @@ public:
     size_t operator()(const vec2d &vec) const
     {
         return (std::hash<int>()(vec.x)) ^ (std::hash<int>()(vec.y));
-        // return (std::hash<int>()(node.position.x) * 73856093) ^ (std::hash<int>()(node.position.y) * 19349663);
     }
 };
 
@@ -49,20 +48,16 @@ public:
     bool operator==(const GridNode &other) const 
     { 
         return value == other.value;
-        // return position.x == other.position.x && position.y == other.position.y;
     }
 };
 
 class GridNodeHash
 {
-// private:
-//     const vec2d primes = {73856093,  19349663};
 
 public:
     size_t operator()(const GridNode &node) const
     {
         return (std::hash<int>()(node.position.x)) ^ (std::hash<int>()(node.position.y));
-        // return (std::hash<int>()(node.position.x) * 73856093) ^ (std::hash<int>()(node.position.y) * 19349663);
     }
 };
 
@@ -72,14 +67,12 @@ public:
     void addGridNode(const int x, const int y, std::string nodeVal);
     void addUndirectedEdge(GridNode *first, GridNode *second);
     void removeUndirectedEdge(GridNode *first, GridNode *second);
-    // std::map<vec2d, GridNode, Vec2dHash> &getAllNodes() { return nodes; }
     std::map<vec2d, GridNode> &getAllNodes() { return nodes; }
 
     void printAdjacency();
     void printGrid();
 
 private:
-    // std::map<vec2d, GridNode, Vec2dHash> nodes;
     std::map<vec2d, GridNode> nodes;
 
 };

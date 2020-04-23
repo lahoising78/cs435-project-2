@@ -99,7 +99,6 @@ std::vector<Node> GraphSearch::BFTRec(const Graph &graph)
     std::vector<Node> queue;
     std::map<std::string, bool> visited;
 
-    // ENQUEUE_NODE_PRINT(graph.nodes.begin()->second);
     enqueue(queue, graph.nodes.begin()->second);
     BFTRecHelp(graph, ret, queue, visited);
 
@@ -176,7 +175,6 @@ std::vector<Node> GraphSearch::BFTIter(const Graph &graph)
             {
                 if(visited[nodeKeyValue.first]) continue;
 
-                // ENQUEUE_NODE_PRINT(node.second);
                 enqueue(queue, nodeKeyValue.second);
                 break;
             }
