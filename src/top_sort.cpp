@@ -141,13 +141,14 @@ std::vector<Node> TopSort::mDFS(DirectedGraph *graph)
     }
 
     /* empty stack into the array we will return */
-    while(!stack.empty())
-    {
-        ret.push_back(stack.back());
-        stack.pop_back();
-    }
+    // while(!stack.empty())
+    // {
+    //     ret.push_back(stack.back());
+    //     stack.pop_back();
+    // }
+    std::reverse(stack.begin(), stack.end());
 
-    return ret;
+    return stack;
 }
 #endif
 

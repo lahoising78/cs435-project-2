@@ -127,6 +127,13 @@ DirectedGraph createRandomDAGIter(const int numNodes)
                 if(cycle.empty())
                     graph.addDirectedEdge(&nodes[nodeVal], &other.second);
             }
+            if( (float)(std::rand() % numNodes) / (float)(numNodes) <= EDGE_CHANCE )
+            {
+                /* make sure you don't create a cycle by linking the nodes */
+                auto cycle = search.DFSIter(nodeVal, other.second);
+                if(cycle.empty())
+                    graph.addDirectedEdge(&other.second, &nodes[nodeVal]);
+            }
         }
     }
 
