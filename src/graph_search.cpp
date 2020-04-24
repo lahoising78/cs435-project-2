@@ -120,11 +120,13 @@ void GraphSearch::BFTRecHelp(const Graph &graph, std::vector<Node> &path, std::v
     for(auto node : curr.adjacency)
     {
         enqueue(queue, *node.first);
+
     }
 
-    for(int i = 0; i < count; i++)
+    for(auto node : curr.adjacency)
     {
-        BFTRecHelp(graph, path, queue, visited);
+        if( !visited[node.first->value] )
+            BFTRecHelp(graph, path, queue, visited);
     }
 
     while(path.size() != graph.nodes.size())
